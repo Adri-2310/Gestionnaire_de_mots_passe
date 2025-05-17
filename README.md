@@ -37,6 +37,7 @@ Un gestionnaire de mots de passe sécurisé construit avec Python 3.13 et ttkboo
 Avant de commencer, assurez-vous d'avoir installé :
 - Python 3.13
 - ttkbootstrap
+- pytest
 
 ## Développement
 
@@ -69,3 +70,16 @@ Avant de commencer, assurez-vous d'avoir installé :
 *Models : ce dossier va répertorier tous les fichiers python qui sont pour l'utilisation des données
 *views : ce dossier va répertorier toutes les vues de mon application donc les fichiers qui gèrent le gui
 *controllers : ce dossier va répertorier tous les fichiers python qui vont faire le lien entre le model et la vue, il va permettre de gérer la communication entre la vue et le model
+
+## amélioration
+* ajout de l'url ou source dans l'enregistrement du mot de passe et utilisateur
+* nouvelle interface en toga
+* utilisation de briefcase pour créer un .msi
+* utilisation de random pour générer un mot passe aléatoire 
+* utilisation des packages
+  - beeware
+    - briefcase
+      - toga
+  - random
+* exportation des mots de passe et utilisateur dans un pdf selon le choix de l'utilisateur
+* importation de mots de passe et utilisateur selon un format via chrome ou explorateur de navigation
