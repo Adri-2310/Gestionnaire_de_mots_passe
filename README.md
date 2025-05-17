@@ -1,24 +1,3 @@
-# Gestionnaire de Mots de Passe
-
-## Description
-
-Un gestionnaire de mots de passe sécurisé construit avec Python 3.13 et ttkbootstrap pour l'interface graphique. Ce projet permet aux utilisateurs de stocker et de gérer leurs mots de passe de manière sécurisée et efficace.
-
-## Fonctionnalités
-
-*Enregistrement de mots de passe : Ajoutez et stockez vos mots de passe de manière sécurisée.
-*Recherche de mots de passe : Recherchez des mots de passe et des utilisateurs selon un critère spécifique.
-*Interface Utilisateur Intuitive : Utilisation de ttkbootstrap pour une expérience utilisateur fluide et moderne.
-*Sécurité : Chiffrement des mots de passe pour une protection accrue.
-
-## Installation
-
-### Prérequis
-
-Avant de commencer, installers :
-*Python 3.13
-*ttkbootstrap
-*sqlite3
 
 ## Description
 
@@ -39,6 +18,7 @@ Avant de commencer, assurez-vous d'avoir installé :
 - Python 3.13
 - ttkbootstrap
 - pytest
+- ruff
 
 ## Développement
 
@@ -50,6 +30,7 @@ Avant de commencer, assurez-vous d'avoir installé :
 2. Création du fichier `data.py` : Ce fichier contiendra tout le code lié à la gestion des données (enregistrement, modification, etc.).
 
 3. development du fichier 'data.py' avec un import sqlite3
+   * ajoute un mot de passe, utilisateur et url du site ou autre 
 
 ## Structure des fichiers
 
