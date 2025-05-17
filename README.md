@@ -17,7 +17,8 @@ Un gestionnaire de mots de passe sécurisé construit avec Python 3.13 et ttkboo
 
 Avant de commencer, installers :
 *Python 3.13
-*ttkbootstrap# Gestionnaire de Mots de Passe
+*ttkbootstrap
+*sqlite3
 
 ## Description
 
@@ -48,7 +49,7 @@ Avant de commencer, assurez-vous d'avoir installé :
 
 2. Création du fichier `data.py` : Ce fichier contiendra tout le code lié à la gestion des données (enregistrement, modification, etc.).
 
-3. ...
+3. development du fichier 'data.py' avec un import sqlite3
 
 ## Structure des fichiers
 
