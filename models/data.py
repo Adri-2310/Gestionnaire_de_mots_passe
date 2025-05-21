@@ -87,7 +87,14 @@ def search_data_one_user(id_data : str) -> tuple:
     :param id_data: Id de la donnée
     :return: Tuple représentant l'enregistrement trouvé, ou None si aucun enregistrement n'est trouvé
     """
-    pass
+    check_if_datas_exists()
+    conn = sqlite3.connect(r'..\datas.db')
+    cursor = conn.cursor()
+    cursor.execute('''SELECT * FROM data WHERE id = ?''', (id_data,))
+    data = cursor.fetchone()
+    cursor.close()
+    conn.close()
+    return data
 
 def check_if_datas_exists() -> None:
     """
@@ -117,5 +124,5 @@ if __name__ == '__main__':
     # Exemple d'utilisation de la fonction registre_data
     registre_data("adrien", "1234", "https://youtube.com")
     registre_data("alicia","1300","facebook.com")
-    result = search_data_all_data_user()
+    result = search_data_one_user("1")
     print(result)
