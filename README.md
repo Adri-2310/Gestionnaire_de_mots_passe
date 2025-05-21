@@ -26,11 +26,10 @@ Avant de commencer, assurez-vous d'avoir installé :
 
 1. Création du fichier `app.py` : Ce fichier sera le lanceur de l'application.
    - Utilisation du modèle MVC : Pour une simplification de la structure des fichiers.
-
 2. Création du fichier `data.py` : Ce fichier contiendra tout le code lié à la gestion des données (enregistrement, modification, etc.).
-
-3. development du fichier 'data.py' avec un import sqlite3
-   * ajoute un mot de passe, utilisateur et url du site ou autre 
+3. development du fichier 'data.py' avec sqlite3
+4. development du chichier 'test_data.py' avec pytest
+5. ...
 
 ## Structure des fichiers
 
