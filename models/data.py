@@ -40,16 +40,21 @@ def registre_data(user: str, password: str, source: str) -> bool:
     else:
         return False
 
-def remove_data(user: str, password: str, source: str) -> bool:
+def remove_data(id_data:str) -> bool:
     """
     Supprime les données d'un utilisateur de la base de données.
 
-    :param user: Nom d'utilisateur
-    :param password: Mot de passe de l'utilisateur
-    :param source: Source associée à l'utilisateur
+    :param id_data: Id lié à la donnée
     :return: True si la suppression a réussi, False sinon
     """
-    pass
+    check_if_datas_exists()
+    conn = sqlite3.connect(r'..\datas.db')
+    cursor = conn.cursor()
+    cursor.execute('''DELETE FROM data WHERE id = ?''', (id_data,))
+    conn.commit()
+    cursor.close()
+    conn.close()
+    return True
 
 def modify_data(old_user: str, old_password: str, old_source: str, new_user: str, new_password: str, new_source: str) -> bool:
     """
@@ -123,6 +128,8 @@ def check_if_user_data_exists(new_user: str, new_password: str, new_source: str)
 if __name__ == '__main__':
     # Exemple d'utilisation de la fonction registre_data
     registre_data("adrien", "1234", "https://youtube.com")
-    registre_data("alicia","1300","facebook.com")
-    result = search_data_one_user("1")
-    print(result)
+    registre_data("alicia","1400","facebook.com")
+    result = search_data_all_data_user()
+    remove_data("5")
+    result2 = search_data_all_data_user()
+    print(result,"\n", result2)
