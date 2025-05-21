@@ -133,10 +133,4 @@ def check_if_user_data_exists(user: str, password: str, source: str) -> bool:
     conn.close()
     return exists
 
-if __name__ == '__main__':
-    # Exemple d'utilisation de la fonction registre_data
-    registre_data("adrien", "1234", "https://youtube.com")
-    registre_data("alicia","1400","facebook.com")
-    result = search_data_all_data_user()
 
-    print(result,"\n",)
