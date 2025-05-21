@@ -65,24 +65,26 @@ def modify_data(old_user: str, old_password: str, old_source: str, new_user: str
     """
     pass
 
-def search_data_all_data_user(user: str, password: str, source: str) -> list:
+def search_data_all_data_user() -> list:
     """
     Recherche toutes les données de chaque enregistrement dans la base de données.
 
-    :param user: Nom d'utilisateur
-    :param password: Mot de passe de l'utilisateur
-    :param source: Source associée à l'utilisateur
     :return: Liste des enregistrements trouvés
     """
-    pass
+    check_if_datas_exists()
+    conn = sqlite3.connect(r'..\datas.db')
+    cursor = conn.cursor()
+    cursor.execute('''SELECT * FROM data''')
+    datas = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    return datas
 
-def search_data_one_user(user: str, password: str, source: str) -> tuple:
+def search_data_one_user(id_data : str) -> tuple:
     """
     Recherche un enregistrement spécifique de l'utilisateur dans la base de données.
 
-    :param user: Nom d'utilisateur
-    :param password: Mot de passe de l'utilisateur
-    :param source: Source associée à l'utilisateur
+    :param id_data: Id de la donnée
     :return: Tuple représentant l'enregistrement trouvé, ou None si aucun enregistrement n'est trouvé
     """
     pass
@@ -113,5 +115,7 @@ def check_if_user_data_exists(new_user: str, new_password: str, new_source: str)
 
 if __name__ == '__main__':
     # Exemple d'utilisation de la fonction registre_data
-    result = registre_data("adrien", "1234", "https://youtube.com")
-    print(result)  # Afficher le résultat de l'insertion
+    registre_data("adrien", "1234", "https://youtube.com")
+    registre_data("alicia","1300","facebook.com")
+    result = search_data_all_data_user()
+    print(result)
