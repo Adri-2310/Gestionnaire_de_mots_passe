@@ -1,12 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="datas" uuid="fadc66e7-01d9-4bd2-8b87-e704f95248c6">
+    <data-source source="LOCAL" name="db_gestionnaire_password" uuid="9ff2911c-93b7-4f96-9ee0-b99046846e41">
       <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
-      <jdbc-url>jdbc:sqlite:C:\Users\warse.TOUR_ADRIEN\Documents\myCode\python\Gestionnaire_de_mots_passe\datas.db</jdbc-url>
+      <jdbc-url>jdbc:sqlite:C:\Users\warse\Documents\myCode\python\Gestionnaire_de_mots_passe\db_gestionnaire_password.db</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
+      <libraries>
+        <library>
+          <url>file://$APPLICATION_CONFIG_DIR$/jdbc-drivers/Xerial SQLiteJDBC/3.45.1/org/xerial/sqlite-jdbc/3.45.1.0/sqlite-jdbc-3.45.1.0.jar</url>
+        </library>
+        <library>
+          <url>file://$APPLICATION_CONFIG_DIR$/jdbc-drivers/Xerial SQLiteJDBC/3.45.1/org/slf4j/slf4j-api/1.7.36/slf4j-api-1.7.36.jar</url>
+        </library>
+      </libraries>
     </data-source>
   </component>
 </project>
