@@ -4,6 +4,7 @@ __version__ = "1.0"
 """
 import os
 import sqlite3
+from models.data import Datas
 
 def create_db():
     """
@@ -26,3 +27,5 @@ def create_db():
 if __name__ == '__main__':
     if not os.path.exists("db_gestionnaire_password.db"):
         create_db()
+
+    data_base = Datas("../db_gestionnaire_password.db")
