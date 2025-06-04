@@ -38,7 +38,7 @@ class Datas:
             return exists
         except sqlite3.Error as e:
             print(f"Erreur lors de la vérification des données : {e}")
-
+            return False
 
     def registre_data(self, username: str, password: str, source: str) -> bool:
         """
@@ -54,6 +54,7 @@ class Datas:
             return False
         except sqlite3.Error as e:
             print(f"Erreur lors de l'enregistrement des données : {e}")
+            return False
 
     def remove_data(self, id_data: str) -> bool:
         """
@@ -69,7 +70,7 @@ class Datas:
             return False
         except sqlite3.Error as e:
             print(f"Erreur lors de la suppression des données : {e}")
-
+            return False
 
     def modify_data(self, old_id: int, old_username: str, old_password: str, old_source: str,
                     new_username: str, new_password: str, new_source: str) -> bool:
@@ -86,7 +87,7 @@ class Datas:
             return False
         except sqlite3.Error as e:
             print(f"Erreur lors de la modification des données : {e}")
-
+            return False
 
     def search_data_all_data_user(self) -> list:
         """
@@ -116,7 +117,4 @@ class Datas:
             print(f"Erreur lors de la recherche de l'utilisateur : {e}")
             return ()
 
-if __name__ == '__main__':
-    datas = Datas()
-    answer = datas.registre_data(username="test", password="<PASSWORD>", source="test")
-    print(answer)
+
