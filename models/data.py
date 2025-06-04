@@ -69,7 +69,7 @@ class Datas:
             return self.execute_query(sql, (username, password, source))
         return False
 
-    def remove_data(self, id_data: str) -> bool:
+    def remove_data(self, id_data: int) -> bool:
         """Supprime les données d'un utilisateur de la base de données."""
         if self.search_data_one_user(id_data=id_data):
             sql = '''DELETE FROM data WHERE id = ?'''
@@ -89,7 +89,7 @@ class Datas:
         sql = '''SELECT * FROM data'''
         return self.fetch_all(sql)
 
-    def search_data_one_user(self, id_data: str) -> tuple:
+    def search_data_one_user(self, id_data: int) -> tuple:
         """Recherche un enregistrement spécifique de l'utilisateur dans la base de données."""
         sql = '''SELECT * FROM data WHERE id = ?'''
         return self.fetch_one(sql, (id_data,))
