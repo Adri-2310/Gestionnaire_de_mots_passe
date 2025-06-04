@@ -2,22 +2,33 @@ __author__ = "Adrien Mertens"
 __version__ = "1.0"
 
 import os.path
+from dataclasses import dataclass, field
 import sqlite3
+from contextlib import closing
 
-def init_db() -> None:
-    """
-    Initialise la base de données et crée la table 'data' si elle n'existe pas.
-    """
-    conn = sqlite3.connect(r'..\datas.db')
-    cursor = conn.cursor()
-    cursor.execute('''CREATE TABLE IF NOT EXISTS data (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        user TEXT NOT NULL,
-        password TEXT NOT NULL,
-        source TEXT)''')
-    conn.commit()
-    cursor.close()
-    conn.close()
+@dataclass
+class Data:
+    username : str
+    password : str
+    source : str
+    id: int = field(default=-1)
+
+class Datas:
+
+    def __init__(self):
+        """Constructeur"""
+        self.database = sqlite3.connect(r'..\datas.db')
+
+    @property
+    def cursor(self) -> sqlite3.Cursor:
+        """Créer le paramètre"""
+        return self.database.cursor()
+
+    def commit(self):
+        """Sauvegarde les modifications appliquée à la table"""
+        self.database.commit()
+
+
 
 def registre_data(user: str, password: str, source: str) -> bool:
     """
