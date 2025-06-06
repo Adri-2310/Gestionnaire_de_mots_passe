@@ -5,7 +5,7 @@ __version__ = "1.0"
 import os
 import sqlite3
 from models.data import Datas
-
+from views.mainView import MainWindow
 def create_db():
     """
             Initialise la base de données et crée la table 'data' si elle n'existe pas.
@@ -27,5 +27,5 @@ def create_db():
 if __name__ == '__main__':
     if not os.path.exists("db_gestionnaire_password.db"):
         create_db()
-
     data_base = Datas("../db_gestionnaire_password.db")
+    app = MainWindow("Gestionnaire mots de passe")

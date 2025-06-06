@@ -12,7 +12,7 @@ class Data:
     source: str
     id: int = field(default=-1)
 
-class Datas():
+class Datas:
     def __init__(self,path_db:str):
         """Constructeur"""
         self.database = sqlite3.connect(path_db)
