@@ -4,7 +4,6 @@ __version__ = "1.0"
 """
 import ttkbootstrap as ttk
 
-
 class Menu(ttk.Frame):
     def __init__(self,master,treeview):
         super().__init__(master)
@@ -13,14 +12,25 @@ class Menu(ttk.Frame):
         self.widgets()
 
     def widgets(self):
-        ttk.Button(self, text="Ajouter", command=self.add_data_in_db).pack(side="left")
-        change_button = ttk.Button(self, text="modification", command=self.change_data_selected)
-        change_button.pack(side="left")
-        delete_button = ttk.Button(self, text="supprimer", command=self.delete_data_selected)
-        delete_button.pack(side="left")
-        show_button = ttk.Button(self, text="Afficher", command=self.show_data_selected)
-        show_button.pack(side="left")
-        ttk.Button(self,text="Quitter",command=self.master.quit).pack(side="left")
+
+        # Créer un style personnalisé pour chaque bouton
+        style = ttk.Style()
+
+        style.configure('AllButton.TButton', borderwidth=1, relief="solid",bordercolor="#4e5d6c")
+        # Note: 'background' is not directly supported for ttk buttons, use 'style.map' for state-specific colors
+        style.map('AllButton.TButton',
+                  background=[('active', '#ABB6C2'), ('!active', '#4e5d6c')],
+                  foreground=[('active', 'black'), ('!active', 'white')])
+
+
+        ttk.Button(self, text="AJOUTER", command=self.add_data_in_db,style="AllButton.TButton").pack(side="left",padx=5,pady=10)
+        change_button = ttk.Button(self, text="MODIFICATION", command=self.change_data_selected,style="AllButton.TButton")
+        change_button.pack(side="left",padx=5,pady=10)
+        delete_button = ttk.Button(self, text="SUPPRIMER", command=self.delete_data_selected,style="AllButton.TButton")
+        delete_button.pack(side="left",padx=5,pady=10)
+        show_button = ttk.Button(self, text="AFFICHIER", command=self.show_data_selected,style="AllButton.TButton")
+        show_button.pack(side="left",padx=5,pady=10)
+        ttk.Button(self,text="QUITTER",command=self.master.quit,style="AllButton.TButton").pack(side="left",padx=5,pady=10)
 
     def add_data_in_db(self):
         pass
