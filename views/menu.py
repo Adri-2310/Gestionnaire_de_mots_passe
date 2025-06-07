@@ -3,6 +3,7 @@ __author__ = "Adrien Mertens"
 __version__ = "1.0"
 """
 import ttkbootstrap as ttk
+from views.addDataView import AddDataView
 
 class Menu(ttk.Frame):
     def __init__(self,master,treeview):
@@ -33,7 +34,7 @@ class Menu(ttk.Frame):
         ttk.Button(self,text="QUITTER",command=self.master.quit,style="AllButton.TButton").pack(side="left",padx=5,pady=10)
 
     def add_data_in_db(self):
-        pass
+        AddDataView(self.master)
 
     def change_data_selected(self):
         pass
