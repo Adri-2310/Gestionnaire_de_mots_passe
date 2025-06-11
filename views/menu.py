@@ -4,12 +4,14 @@ __version__ = "1.0"
 """
 import ttkbootstrap as ttk
 from views.addDataView import AddDataView
+from views.changeDataView import ChangeDataView
+
 
 class Menu(ttk.Frame):
     def __init__(self,master,treeview):
         super().__init__(master)
         __master = master
-        __treeview = treeview
+        self.__treeview = treeview
         self.widgets()
 
     def widgets(self):
@@ -37,7 +39,7 @@ class Menu(ttk.Frame):
         AddDataView(self.master)
 
     def change_data_selected(self):
-        pass
+        ChangeDataView(self.master, self.__treeview)
 
     def delete_data_selected(self):
         pass

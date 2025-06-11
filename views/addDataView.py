@@ -55,10 +55,10 @@ class AddDataView(ttk.Toplevel):
         bottom_frame.pack(side="bottom",padx=10,pady=10,expand=True,fill="x")
         bottom_frame.columnconfigure(0,weight=1)
         bottom_frame.columnconfigure(1,weight=1)
-        self.add_button = ttk.Button(bottom_frame,text="VALIDER",command=self.add_data,style="ValidateButton.TButton")
+        self.add_button = ttk.Button(bottom_frame,text="VALIDER",command=self.validate,style="ValidateButton.TButton")
         self.cancel_button = ttk.Button(bottom_frame,text="ANNULER",command=self.destroy,style="CancelButton.TButton")
         self.add_button.grid(row=0,column=0,padx=10,pady=10)
         self.cancel_button.grid(row=0,column=1,padx=10,pady=10)
 
-    def add_data(self):
+    def validate(self):
         pass
