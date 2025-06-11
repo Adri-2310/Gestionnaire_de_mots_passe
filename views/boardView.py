@@ -48,9 +48,9 @@ class BoardView(ttk.Frame):
         # Insérer des données d'exemple avec des tags pour les couleurs alternées
         for i in range(30):
             if i % 2 == 0:
-                self.board.insert('', 'end', values=(f'{i + 1}', f'test{i + 1}'), tags=('evenrow',))
+                self.board.insert('', 'end',iid=i, values=(f'{i + 1}', f'test{i + 1}'), tags=('evenrow',))
             else:
-                self.board.insert('', 'end', values=(f'{i + 1}', f'test{i + 1}'), tags=('oddrow',))
+                self.board.insert('', 'end',iid=i, values=(f'{i + 1}', f'test{i + 1}'), tags=('oddrow',))
 
         # Ajoutez une barre de défilement verticale
         scrollbar = ttk.Scrollbar(self.tree_frame, orient="vertical", command=self.board.yview)

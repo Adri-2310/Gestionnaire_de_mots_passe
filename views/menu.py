@@ -42,7 +42,10 @@ class Menu(ttk.Frame):
         ChangeDataView(self.master, self.__treeview)
 
     def delete_data_selected(self):
-        pass  # Supprimer l'élément sélectionné
+        selected_item = self.__treeview.selection()  # Obtenir l'élément sélectionné
+        print(selected_item[0])
+        if selected_item:
+            self.__treeview.delete(selected_item)  # Supprimer l'élément sélectionné
 
     def show_data_selected(self):
         ShowDataView(self.master, self.__treeview)
