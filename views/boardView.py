@@ -74,6 +74,5 @@ class BoardView(ttk.Frame):
 
         # Insérer les nouvelles données
         for index, data in enumerate(data_list):
-            iid = f"iid_{data.id}"
             tag = 'evenrow' if index % 2 == 0 else 'oddrow'
-            self.board.insert('', ttkc.END, iid=iid, values=(data.id, data.name), tags=(tag,))
+            self.board.insert('', ttkc.END, iid=data.id, values=(data.id, data.name), tags=(tag,))

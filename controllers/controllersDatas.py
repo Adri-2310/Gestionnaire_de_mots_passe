@@ -16,7 +16,7 @@ class ControllersDatas:
         pass
 
     def delete_data(self,data:Data):
-        pass
+        return self.__datas.remove_data(data.id)
 
     def get_all_datas(self):
         return self.__datas.get_all_Data_in_db()

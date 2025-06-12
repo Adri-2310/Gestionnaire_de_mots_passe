@@ -8,6 +8,7 @@ import ttkbootstrap as ttk
 from views.addDataView import AddDataView
 from views.changeDataView import ChangeDataView
 from views.showDataView import ShowDataView
+from models.data import Data
 
 class Menu(ttk.Frame):
     """
@@ -45,7 +46,7 @@ class Menu(ttk.Frame):
             ("AJOUTER", self.add_data),
             ("MODIFICATION", self.change_data_selected),
             ("SUPPRIMER", self.delete_data_selected),
-            ("AFFICHIER", self.show_data_selected),
+            ("AFFICHER", self.show_data_selected),
             ("QUITTER", self.__master.quit)
         ]
 
@@ -69,9 +70,12 @@ class Menu(ttk.Frame):
         """
         Supprime les données sélectionnées dans le Treeview.
         """
-        selected_item = self.board.selection()
+        selected_item = self.board.board.selection()
         if selected_item:
-            self.board.delete(selected_item)
+            data_id = int(selected_item[0])
+            if self.__controller.delete_data(Data(id=data_id,name="",username="",password="",source="")):
+                print("la données a bien été supprimé")
+                self.board.board.delete(selected_item)
 
     def show_data_selected(self):
         """
