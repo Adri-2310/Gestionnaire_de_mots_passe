@@ -4,7 +4,7 @@ import ttkbootstrap.constants as ttkc
 class BoardView(ttk.Frame):
     def __init__(self, parent):
         super().__init__(parent)
-
+        self.__parent = parent
         # Créer un style personnalisé
         style = ttk.Style()
 
@@ -45,15 +45,21 @@ class BoardView(ttk.Frame):
         self.board.tag_configure('evenrow', background='#475562')  # Gris foncé pour les lignes paires
         self.board.tag_configure('oddrow', background='#5d6f81')  # Gris clair pour les lignes impaires
 
-        # Insérer des données d'exemple avec des tags pour les couleurs alternées
-        for i in range(30):
-            if i % 2 == 0:
-                self.board.insert('', 'end',iid=i, values=(f'{i + 1}', f'test{i + 1}'), tags=('evenrow',))
-            else:
-                self.board.insert('', 'end',iid=i, values=(f'{i + 1}', f'test{i + 1}'), tags=('oddrow',))
-
         # Ajoutez une barre de défilement verticale
         scrollbar = ttk.Scrollbar(self.tree_frame, orient="vertical", command=self.board.yview)
         self.board.configure(yscroll=scrollbar.set)
         scrollbar.pack(side="right", fill="y")
         self.board.pack(side="left", fill="both", expand=True)
+    @property
+    def controller(self):
+        try:
+            return self.__controller
+        except AttributeError:
+            self.__parent.quit()
+
+    @controller.setter
+    def controller(self,controller):
+        self.__controller = controller
+
+    def add_data_in_board(self,data):
+        pass

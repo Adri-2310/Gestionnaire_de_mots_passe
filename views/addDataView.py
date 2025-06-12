@@ -3,11 +3,18 @@ __author__ = "Adrien Mertens"
 __version__ = "1.0"
 """
 from views.topLevelValidateAndCancelForUseDB import TopLevelValidateAndCancelForUseDB
+from models.data import Data
 
 
 class AddDataView(TopLevelValidateAndCancelForUseDB):
-    def __init__(self,master):
-        super().__init__(master,"Ajouter une données",print("test add data in db"))
+    def __init__(self,master,controllers):
+        super().__init__(master,"Ajouter une données",self.command)
+        self.__controllers = controllers
 
-        # création du controller pour le placer dans command_for_validateButton et lui donner
-        # en paramètre les la var de ttk
+    def command(self):
+        if self.__controllers.add_data(Data(self.var_name.get(),self.var_username.get(),self.var_password.get(),self.var_source.get())):
+            print("la données a bien été enregsitré")
+            self.destroy()
+        else:
+            print("la données existe déja")
+

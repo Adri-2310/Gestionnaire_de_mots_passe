@@ -27,7 +27,7 @@ class Datas:
     Cette classe fournit des méthodes pour insérer, mettre à jour, supprimer et rechercher des données utilisateur.
     """
 
-    def __init__(self, path_db: str):
+    def __init__(self, path_db: str = "../db_gestionnaire_password.db"):
         """
         Initialise la connexion à la base de données.
 
@@ -132,7 +132,8 @@ class Datas:
         if not self.check_if_user_data_exists(data):
             sql = '''INSERT INTO data (name, username, password, source) VALUES (?, ?, ?, ?)'''
             return self.execute_query(sql, (data.name, data.username, data.password, data.source))
-        return False
+        else:
+            return False
 
     def remove_data(self, id_data: int) -> bool:
         """

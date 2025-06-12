@@ -28,5 +28,5 @@ def create_db():
 if __name__ == '__main__':
     if not os.path.exists("db_gestionnaire_password.db"):
         create_db()
-    data_base = Datas("../db_gestionnaire_password.db")
-    app = MainWindow("Gestionnaire mots de passe")
+    data_base = Datas("db_gestionnaire_password.db")
+    app = MainWindow("Gestionnaire mots de passe","db_gestionnaire_password.db")
