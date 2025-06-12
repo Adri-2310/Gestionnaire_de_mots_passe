@@ -145,7 +145,7 @@ class Datas:
         Returns:
             bool: True si les données ont été supprimées avec succès, False sinon.
         """
-        if self.search_data_one_user(id_data):
+        if self.get_one_data_in_db(id_data):
             sql = '''DELETE FROM data WHERE id = ?'''
             return self.execute_query(sql, (id_data,))
         return False
@@ -161,7 +161,7 @@ class Datas:
         Returns:
             bool: True si les données ont été modifiées avec succès, False sinon.
         """
-        if self.search_data_one_user(data_id):
+        if self.get_one_data_in_db(data_id):
             sql = '''UPDATE data SET name = ?, username = ?, password = ?, source = ? WHERE id = ?'''
             return self.execute_query(sql, (new_data.name, new_data.username, new_data.password, new_data.source, data_id))
         return False
@@ -184,18 +184,18 @@ class Datas:
         results = self.fetch_all(sql)
         return [Data(id=row[0], name=row[1], username=row[2], password=row[3], source=row[4]) for row in results]
 
-    def search_data_one_user(self, id_data: int) -> Optional[Data]:
+    def get_one_data_in_db(self, data_id: int) -> Optional[Data]:
         """
         Recherche un enregistrement spécifique de l'utilisateur dans la base de données et le retourne sous forme d'objet Data.
 
         Args:
-            id_data (int): L'identifiant unique des données à rechercher.
+            data_id (int): L'identifiant unique des données à rechercher.
 
         Returns:
             Optional[Data]: Un objet Data représentant l'enregistrement, ou None si aucun enregistrement n'est trouvé.
         """
         sql = '''SELECT * FROM data WHERE id = ?'''
-        row = self.fetch_one(sql, (id_data,))
+        row = self.fetch_one(sql, (data_id,))
         if row:
             return Data(id=row[0], name=row[1], username=row[2], password=row[3], source=row[4])
         return None

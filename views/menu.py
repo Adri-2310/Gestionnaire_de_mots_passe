@@ -64,24 +64,44 @@ class Menu(ttk.Frame):
         """
         Ouvre la vue pour modifier les données sélectionnées.
         """
-        ChangeDataView(self.__master, self.board)
+        try:
+            selected_item = self.board.board.selection()
+            if not selected_item:
+                raise IndexError("Aucune donnée sélectionnée")
+
+            ChangeDataView(master=self.__master, board=self.board,data_id=int(self.board.board.selection()[0]),controller=self.__controller)
+        except IndexError:
+            print("Veuillez selectionnez un élément dans le tableau")
 
     def delete_data_selected(self):
         """
         Supprime les données sélectionnées dans le Treeview.
         """
-        selected_item = self.board.board.selection()
-        if selected_item:
-            data_id = int(selected_item[0])
-            if self.__controller.delete_data(Data(id=data_id,name="",username="",password="",source="")):
-                print("la données a bien été supprimé")
-                self.board.board.delete(selected_item)
+        try:
+            selected_item = self.board.board.selection()
+            if not selected_item:
+                raise IndexError("Aucune donnée sélectionnée")
+
+            selected_item = self.board.board.selection()
+            if selected_item:
+                if self.__controller.delete_data(data_id=int(selected_item[0])):
+                    print("la données a bien été supprimé")
+                    self.board.board.delete(selected_item)
+        except IndexError:
+            print("Veuillez selectionnez un élément dans le tableau")
 
     def show_data_selected(self):
         """
         Ouvre la vue pour afficher les données sélectionnées.
         """
-        ShowDataView(self.__master, self.board)
+        try:
+            selected_item = self.board.board.selection()
+            if not selected_item:
+                raise IndexError("Aucune donnée sélectionnée")
+
+            ShowDataView(self.__master, self.board)
+        except IndexError:
+            print("Veuillez selectionnez un élément dans le tableau")
 
     @property
     def controller(self):
