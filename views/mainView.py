@@ -18,6 +18,7 @@ class MainWindow(ttk.Window):
         __treeview = BoardView(self)
         __treeview.controller = ControllersDatas(Datas(path_db))
         __treeview.grid(row=1,column=0,sticky='nsew',padx=10,pady=8)
+        __treeview.refresh_data_board_from_db()
         __menu=Menu(self, __treeview.board)
         __menu.controller = ControllersDatas(Datas(path_db))
         __menu.grid(row=0, column=0, sticky='nsew',padx=10,pady=8)

@@ -50,6 +50,7 @@ class BoardView(ttk.Frame):
         self.board.configure(yscroll=scrollbar.set)
         scrollbar.pack(side="right", fill="y")
         self.board.pack(side="left", fill="both", expand=True)
+
     @property
     def controller(self):
         try:
@@ -61,5 +62,19 @@ class BoardView(ttk.Frame):
     def controller(self,controller):
         self.__controller = controller
 
-    def add_data_in_board(self,data):
-        pass
+    def refresh_data_board_from_db(self):
+        """
+        Rafraîchit le Treeview avec une nouvelle liste d'objets Data.
+        """
+        #récupère toutes les données de la db
+        data_list = self.__controller.get_all_datas()
+        print(data_list)
+        # Effacer toutes les données existantes dans le Treeview
+        for item in self.board.get_children():
+            self.board.delete(item)
+
+        # Insérer les nouvelles données
+        for index, data in enumerate(data_list):
+            iid = f"iid_{data.id}"
+            tag = 'evenrow' if index % 2 == 0 else 'oddrow'
+            self.board.insert('', ttkc.END, iid=iid, values=(data.id, data.name), tags=(tag,))

@@ -166,12 +166,19 @@ class Datas:
             return self.execute_query(sql, (new_data.name, new_data.username, new_data.password, new_data.source, data_id))
         return False
 
-    def search_data_all_data_user(self) -> List[Data]:
+    def get_all_Data_in_db(self) -> List[Data]:
         """
-        Recherche toutes les données de chaque enregistrement dans la base de données et les retourne sous forme d'objets Data.
+        Retrieves all records from the data table in the database and returns them
+        as a list of Data objects. This method interacts with the database to
+        fetch all rows in the data table and transforms each row into an instance
+        of the Data class.
 
-        Returns:
-            List[Data]: Une liste d'objets Data représentant les enregistrements.
+        :raises DatabaseError: If there is a failure in fetching data from the
+            database.
+
+        :return: A list of Data objects, where each object represents a record from
+            the data table.
+        :rtype: List[Data]
         """
         sql = '''SELECT * FROM data'''
         results = self.fetch_all(sql)
