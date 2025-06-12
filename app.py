@@ -23,6 +23,7 @@ def create_db():
 
 
 
+
 # lancement de mon application
 if __name__ == '__main__':
     if not os.path.exists("db_gestionnaire_password.db"):
