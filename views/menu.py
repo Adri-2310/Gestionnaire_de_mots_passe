@@ -15,17 +15,17 @@ class Menu(ttk.Frame):
     Ce menu permet d'ajouter, modifier, supprimer, afficher des données et quitter l'application.
     """
 
-    def __init__(self, master, treeview):
+    def __init__(self, master, board):
         """
         Initialise le menu principal.
 
         Args:
             master: Le widget parent.
-            treeview: Le widget Treeview pour afficher les données.
+            board: Le widget Treeview pour afficher les données.
         """
         super().__init__(master)
         self.__master = master
-        self.__treeview = treeview
+        self.board = board
         self.__controller = None
         self.widgets()
 
@@ -57,27 +57,27 @@ class Menu(ttk.Frame):
         """
         Ouvre la vue pour ajouter des données.
         """
-        AddDataView(self.__master,self.__controller)
+        AddDataView(self.__master, self.__controller, self.board)
 
     def change_data_selected(self):
         """
         Ouvre la vue pour modifier les données sélectionnées.
         """
-        ChangeDataView(self.__master, self.__treeview)
+        ChangeDataView(self.__master, self.board)
 
     def delete_data_selected(self):
         """
         Supprime les données sélectionnées dans le Treeview.
         """
-        selected_item = self.__treeview.selection()
+        selected_item = self.board.selection()
         if selected_item:
-            self.__treeview.delete(selected_item)
+            self.board.delete(selected_item)
 
     def show_data_selected(self):
         """
         Ouvre la vue pour afficher les données sélectionnées.
         """
-        ShowDataView(self.__master, self.__treeview)
+        ShowDataView(self.__master, self.board)
 
     @property
     def controller(self):

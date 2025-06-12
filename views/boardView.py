@@ -68,7 +68,6 @@ class BoardView(ttk.Frame):
         """
         #récupère toutes les données de la db
         data_list = self.__controller.get_all_datas()
-        print(data_list)
         # Effacer toutes les données existantes dans le Treeview
         for item in self.board.get_children():
             self.board.delete(item)
