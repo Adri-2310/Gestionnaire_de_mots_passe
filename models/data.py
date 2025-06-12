@@ -1,96 +1,193 @@
-__author__ = "Adrien Mertens"
-__version__ = "1.0"
+"""
+Module pour la gestion des données utilisateur dans une base de données SQLite.
+Auteur : Adrien Mertens
+Version : 1.0
+"""
 
 from dataclasses import dataclass, field
 import sqlite3
 from contextlib import closing
+from typing import Optional, List
 
 @dataclass
 class Data:
-    username: str
-    password: str
-    source: str
-    id: int = field(default=-1)
+    """
+    Une classe pour représenter les données d'un utilisateur.
+    Cette dataclass contient les informations de base d'un utilisateur.
+    """
+    name: str  # Le nom de l'utilisateur
+    username: str  # Le nom d'utilisateur
+    password: str  # Le mot de passe de l'utilisateur
+    source: str  # La source des données de l'utilisateur
+    id: int = field(default=-1)  # L'identifiant unique de l'utilisateur, par défaut -1
 
 class Datas:
-    def __init__(self,path_db:str):
-        """Constructeur"""
-        self.database = sqlite3.connect(path_db)
+    """
+    Une classe pour gérer les opérations de base de données pour les données utilisateur.
+    Cette classe fournit des méthodes pour insérer, mettre à jour, supprimer et rechercher des données utilisateur.
+    """
 
-    @property
-    def cursor(self) -> sqlite3.Cursor:
-        """Créer le curseur"""
-        return self.database.cursor()
+    def __init__(self, path_db: str):
+        """
+        Initialise la connexion à la base de données.
 
-    def commit(self):
-        """Sauvegarde les modifications appliquées à la table"""
-        self.database.commit()
+        Args:
+            path_db (str): Le chemin vers le fichier de la base de données SQLite.
+        """
+        self.path_db = path_db
+
+    def _get_connection(self):
+        """
+        Crée et retourne une connexion à la base de données en utilisant un gestionnaire de contexte.
+
+        Returns:
+            sqlite3.Connection: Une connexion à la base de données SQLite.
+        """
+        return sqlite3.connect(self.path_db)
 
     def execute_query(self, sql: str, params: tuple = ()) -> bool:
-        """Exécute une requête SQL avec gestion des erreurs."""
+        """
+        Exécute une requête SQL avec gestion des erreurs.
+
+        Args:
+            sql (str): La requête SQL à exécuter.
+            params (tuple): Les paramètres à passer à la requête SQL.
+
+        Returns:
+            bool: True si la requête a été exécutée avec succès, False sinon.
+        """
         try:
-            with closing(self.cursor) as cursor:
-                cursor.execute(sql, params)
-            self.commit()
+            with self._get_connection() as conn:
+                with closing(conn.cursor()) as cursor:
+                    cursor.execute(sql, params)
+                conn.commit()
             return True
         except sqlite3.Error as e:
-            print(f"Erreur lors de l'exécution de la requête : {e}")
+            print(f"Error executing the query: {e}")
             return False
 
-    def fetch_one(self, sql: str, params: tuple = ()):
-        """Récupère un seul enregistrement."""
+    def fetch_one(self, sql: str, params: tuple = ()) -> Optional[tuple]:
+        """
+        Récupère un seul enregistrement de la base de données.
+
+        Args:
+            sql (str): La requête SQL à exécuter.
+            params (tuple): Les paramètres à passer à la requête SQL.
+
+        Returns:
+            Optional[tuple]: Un tuple représentant un enregistrement, ou None si aucun enregistrement n'est trouvé.
+        """
         try:
-            with closing(self.cursor) as cursor:
-                cursor.execute(sql, params)
-                return cursor.fetchone()
+            with self._get_connection() as conn:
+                with closing(conn.cursor()) as cursor:
+                    cursor.execute(sql, params)
+                    return cursor.fetchone()
         except sqlite3.Error as e:
-            print(f"Erreur lors de la récupération des données : {e}")
+            print(f"Error retrieving data: {e}")
             return None
 
-    def fetch_all(self, sql: str, params: tuple = ()):
-        """Récupère tous les enregistrements."""
+    def fetch_all(self, sql: str, params: tuple = ()) -> List[tuple]:
+        """
+        Récupère tous les enregistrements de la base de données.
+
+        Args:
+            sql (str): La requête SQL à exécuter.
+            params (tuple): Les paramètres à passer à la requête SQL.
+
+        Returns:
+            List[tuple]: Une liste de tuples représentant les enregistrements.
+        """
         try:
-            with closing(self.cursor) as cursor:
-                cursor.execute(sql, params)
-                return cursor.fetchall()
+            with self._get_connection() as conn:
+                with closing(conn.cursor()) as cursor:
+                    cursor.execute(sql, params)
+                    return cursor.fetchall()
         except sqlite3.Error as e:
-            print(f"Erreur lors de la récupération des données : {e}")
+            print(f"Error retrieving data: {e}")
             return []
 
-    def check_if_user_data_exists(self, username: str, password: str, source: str) -> bool:
-        """Vérifie si les données d'un utilisateur existent déjà dans la base de données."""
-        sql = '''SELECT 1 FROM data WHERE username = ? AND password = ? AND source = ?'''
-        return self.fetch_one(sql, (username, password, source)) is not None
+    def check_if_user_data_exists(self, data: Data) -> bool:
+        """
+        Vérifie si les données d'un utilisateur existent déjà dans la base de données.
 
-    def registre_data(self, username: str, password: str, source: str) -> bool:
-        """Enregistre les données d'un utilisateur dans la base de données si elles n'existent pas déjà."""
-        if not self.check_if_user_data_exists(username=username, password=password, source=source):
-            sql = '''INSERT INTO data (username, password, source) VALUES (?, ?, ?)'''
-            return self.execute_query(sql, (username, password, source))
+        Args:
+            data (Data): Un objet Data contenant les informations de l'utilisateur.
+
+        Returns:
+            bool: True si les données existent déjà, False sinon.
+        """
+        sql = '''SELECT 1 FROM data WHERE username = ? AND password = ? AND source = ? AND name = ?'''
+        return self.fetch_one(sql, (data.username, data.password, data.source, data.name)) is not None
+
+    def register_data(self, data: Data) -> bool:
+        """
+        Enregistre les données d'un utilisateur dans la base de données si elles n'existent pas déjà.
+
+        Args:
+            data (Data): Un objet Data contenant les informations de l'utilisateur.
+
+        Returns:
+            bool: True si les données ont été enregistrées avec succès, False sinon.
+        """
+        if not self.check_if_user_data_exists(data):
+            sql = '''INSERT INTO data (name, username, password, source) VALUES (?, ?, ?, ?)'''
+            return self.execute_query(sql, (data.name, data.username, data.password, data.source))
         return False
 
     def remove_data(self, id_data: int) -> bool:
-        """Supprime les données d'un utilisateur de la base de données."""
-        if self.search_data_one_user(id_data=id_data):
+        """
+        Supprime les données d'un utilisateur de la base de données.
+
+        Args:
+            id_data (int): L'identifiant unique des données à supprimer.
+
+        Returns:
+            bool: True si les données ont été supprimées avec succès, False sinon.
+        """
+        if self.search_data_one_user(id_data):
             sql = '''DELETE FROM data WHERE id = ?'''
             return self.execute_query(sql, (id_data,))
         return False
 
-    def modify_data(self, old_id: int, new_username: str, new_password: str, new_source: str) -> bool:
-        """Modifie les données d'un utilisateur dans la base de données."""
-        data = self.search_data_one_user(id_data=old_id)
-        if data:
-            sql = '''UPDATE data SET username = ?, password = ?, source = ? WHERE id = ?'''
-            return self.execute_query(sql, (new_username, new_password, new_source, old_id))
+    def modify_data(self, data_id: int, new_data: Data) -> bool:
+        """
+        Modifie les données d'un utilisateur dans la base de données.
+
+        Args:
+            data_id (int): L'identifiant unique des données à modifier.
+            new_data (Data): Un objet Data contenant les nouvelles informations de l'utilisateur.
+
+        Returns:
+            bool: True si les données ont été modifiées avec succès, False sinon.
+        """
+        if self.search_data_one_user(data_id):
+            sql = '''UPDATE data SET name = ?, username = ?, password = ?, source = ? WHERE id = ?'''
+            return self.execute_query(sql, (new_data.name, new_data.username, new_data.password, new_data.source, data_id))
         return False
 
-    def search_data_all_data_user(self) -> list:
-        """Recherche toutes les données de chaque enregistrement dans la base de données."""
+    def search_data_all_data_user(self) -> List[Data]:
+        """
+        Recherche toutes les données de chaque enregistrement dans la base de données et les retourne sous forme d'objets Data.
+
+        Returns:
+            List[Data]: Une liste d'objets Data représentant les enregistrements.
+        """
         sql = '''SELECT * FROM data'''
-        return self.fetch_all(sql)
+        results = self.fetch_all(sql)
+        return [Data(id=row[0], name=row[1], username=row[2], password=row[3], source=row[4]) for row in results]
 
-    def search_data_one_user(self, id_data: int) -> tuple:
-        """Recherche un enregistrement spécifique de l'utilisateur dans la base de données."""
+    def search_data_one_user(self, id_data: int) -> Optional[Data]:
+        """
+        Recherche un enregistrement spécifique de l'utilisateur dans la base de données et le retourne sous forme d'objet Data.
+
+        Args:
+            id_data (int): L'identifiant unique des données à rechercher.
+
+        Returns:
+            Optional[Data]: Un objet Data représentant l'enregistrement, ou None si aucun enregistrement n'est trouvé.
+        """
         sql = '''SELECT * FROM data WHERE id = ?'''
-        return self.fetch_one(sql, (id_data,))
-
+        row = self.fetch_one(sql, (id_data,))
+        if row:
+            return Data(id=row[0], name=row[1], username=row[2], password=row[3], source=row[4])
+        return None
