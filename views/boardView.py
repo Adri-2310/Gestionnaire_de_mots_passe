@@ -33,12 +33,10 @@ class BoardView(ttk.Frame):
         self.board = ttk.Treeview(self.tree_frame, height=5, show="headings", style="Treeview")
 
         # Ajoutez les colonnes au tableau
-        self.board["columns"] = ("id", "name")
-        self.board.column("id", minwidth=75, width=75, stretch=ttkc.NO,anchor=ttk.CENTER)
+        self.board["columns"] = ( "name")
         self.board.column("name", minwidth=100, width=100, stretch=ttkc.YES,anchor=ttk.CENTER)
 
         # Ajoutez des en-têtes de colonne
-        self.board.heading("id", text="NUMÉRO",anchor=ttk.CENTER)
         self.board.heading("name", text="NOM",anchor=ttk.CENTER)
 
         # Configurer les couleurs pour les lignes paires et impaires
@@ -75,4 +73,4 @@ class BoardView(ttk.Frame):
         # Insérer les nouvelles données
         for index, data in enumerate(data_list):
             tag = 'evenrow' if index % 2 == 0 else 'oddrow'
-            self.board.insert('', ttkc.END, iid=data.id, values=(data.id, data.name), tags=(tag,))
+            self.board.insert('', ttkc.END, iid=data.id, values=data.name, tags=(tag,))

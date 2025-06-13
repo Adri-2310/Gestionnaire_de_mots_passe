@@ -81,7 +81,7 @@ class Menu(ttk.Frame):
             selected_item = self.board.board.selection()
             if not selected_item:
                 raise IndexError("Aucune donnée sélectionnée")
-
+            # ajout une boite de dialoque pour confirmer la suppression
             selected_item = self.board.board.selection()
             if selected_item:
                 if self.__controller.delete_data(data_id=int(selected_item[0])):
