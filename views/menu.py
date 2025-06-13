@@ -99,7 +99,7 @@ class Menu(ttk.Frame):
             if not selected_item:
                 raise IndexError("Aucune donnée sélectionnée")
 
-            ShowDataView(self.__master, self.board)
+            ShowDataView(master=self.__master, board=self.board,controller=self.__controller)
         except IndexError:
             print("Veuillez selectionnez un élément dans le tableau")
 
