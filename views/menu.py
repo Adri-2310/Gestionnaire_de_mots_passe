@@ -1,7 +1,6 @@
 """
-Module pour le menu principal de l'application de gestion des mots de passe.
-Auteur : Adrien Mertens
-Version : 1.0
+Author: Adrien Mertens
+Version: 1.0
 """
 
 import ttkbootstrap as ttk
@@ -11,17 +10,17 @@ from views.showDataView import ShowDataView
 
 class Menu(ttk.Frame):
     """
-    Une classe pour représenter le menu principal de l'application.
-    Ce menu permet d'ajouter, modifier, supprimer, afficher des données et quitter l'application.
+    A class to represent the main menu of the application.
+    This menu allows adding, modifying, deleting, displaying data, and quitting the application.
     """
 
     def __init__(self, master, board):
         """
-        Initialise le menu principal.
+        Initializes the main menu.
 
         Args:
-            master: Le widget parent.
-            board: Le widget Treeview pour afficher les données.
+            master: The parent widget.
+            board: The Treeview widget to display the data.
         """
         super().__init__(master)
         self.__master = master
@@ -31,22 +30,22 @@ class Menu(ttk.Frame):
 
     def widgets(self):
         """
-        Crée et configure les widgets du menu.
+        Creates and configures the menu widgets.
         """
-        # Créer un style personnalisé pour chaque bouton
+        # Create a custom style for each button
         style = ttk.Style()
         style.configure('AllButton.TButton', borderwidth=1, relief="solid", bordercolor="#4e5d6c")
         style.map('AllButton.TButton',
                   background=[('active', '#ABB6C2'), ('!active', '#4e5d6c')],
                   foreground=[('active', 'black'), ('!active', 'white')])
 
-        # Configuration des boutons
+        # Button configurations
         buttons_config = [
-            ("AJOUTER", self.add_data),
-            ("MODIFICATION", self.change_data_selected),
-            ("SUPPRIMER", self.delete_data_selected),
-            ("AFFICHER", self.show_data_selected),
-            ("QUITTER", self.__master.quit)
+            ("ADD", self.add_data),
+            ("MODIFY", self.change_data_selected),
+            ("DELETE", self.delete_data_selected),
+            ("DISPLAY", self.show_data_selected),
+            ("QUIT", self.__master.quit)
         ]
 
         for text, command in buttons_config:
@@ -55,63 +54,63 @@ class Menu(ttk.Frame):
 
     def add_data(self):
         """
-        Ouvre la vue pour ajouter des données.
+        Opens the view to add data.
         """
         AddDataView(self.__master, self.__controller, self.board)
 
     def change_data_selected(self):
         """
-        Ouvre la vue pour modifier les données sélectionnées.
+        Opens the view to modify the selected data.
         """
         try:
             selected_item = self.board.board.selection()
             if not selected_item:
-                raise IndexError("Aucune donnée sélectionnée")
+                raise IndexError("No data selected")
 
-            ChangeDataView(master=self.__master, board=self.board,data_id=int(self.board.board.selection()[0]),controller=self.__controller)
+            ChangeDataView(master=self.__master, board=self.board, data_id=int(self.board.board.selection()[0]), controller=self.__controller)
         except IndexError:
-            print("Veuillez selectionnez un élément dans le tableau")
+            print("Please select an item in the table")
 
     def delete_data_selected(self):
         """
-        Supprime les données sélectionnées dans le Treeview.
+        Deletes the selected data in the Treeview.
         """
         try:
             selected_item = self.board.board.selection()
             if not selected_item:
-                raise IndexError("Aucune donnée sélectionnée")
-            # ajout une boite de dialoque pour confirmer la suppression
+                raise IndexError("No data selected")
+            # Add a dialog box to confirm deletion
             selected_item = self.board.board.selection()
             if selected_item:
                 if self.__controller.delete_data(data_id=int(selected_item[0])):
-                    print("la données a bien été supprimé")
+                    print("The data has been successfully deleted")
                     self.board.board.delete(selected_item)
         except IndexError:
-            print("Veuillez selectionnez un élément dans le tableau")
+            print("Please select an item in the table")
 
     def show_data_selected(self):
         """
-        Ouvre la vue pour afficher les données sélectionnées.
+        Opens the view to display the selected data.
         """
         try:
             selected_item = self.board.board.selection()
             if not selected_item:
-                raise IndexError("Aucune donnée sélectionnée")
+                raise IndexError("No data selected")
 
-            ShowDataView(master=self.__master, board=self.board,controller=self.__controller)
+            ShowDataView(master=self.__master, board=self.board, controller=self.__controller)
         except IndexError:
-            print("Veuillez selectionnez un élément dans le tableau")
+            print("Please select an item in the table")
 
     @property
     def controller(self):
         """
-        Obtient le contrôleur associé à ce menu.
+        Gets the controller associated with this menu.
 
         Returns:
-            Le contrôleur associé.
+            The associated controller.
 
         Raises:
-            AttributeError: Si le contrôleur n'est pas défini, quitte l'application.
+            AttributeError: If the controller is not defined, quits the application.
         """
         try:
             return self.__controller
@@ -121,9 +120,9 @@ class Menu(ttk.Frame):
     @controller.setter
     def controller(self, controller):
         """
-        Définit le contrôleur associé à ce menu.
+        Sets the controller associated with this menu.
 
         Args:
-            controller: Le contrôleur à associer.
+            controller: The controller to associate.
         """
         self.__controller = controller
