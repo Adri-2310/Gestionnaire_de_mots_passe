@@ -8,7 +8,6 @@ import ttkbootstrap as ttk
 from views.addDataView import AddDataView
 from views.changeDataView import ChangeDataView
 from views.showDataView import ShowDataView
-from models.data import Data
 
 class Menu(ttk.Frame):
     """
