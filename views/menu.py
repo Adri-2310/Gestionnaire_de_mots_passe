@@ -7,6 +7,7 @@ import ttkbootstrap as ttk
 from views.addDataView import AddDataView
 from views.changeDataView import ChangeDataView
 from views.showDataView import ShowDataView
+import ttkbootstrap.dialogs as dialogs
 
 class Menu(ttk.Frame):
     """
@@ -41,11 +42,11 @@ class Menu(ttk.Frame):
 
         # Button configurations
         buttons_config = [
-            ("ADD", self.add_data),
-            ("MODIFY", self.change_data_selected),
-            ("DELETE", self.delete_data_selected),
-            ("DISPLAY", self.show_data_selected),
-            ("QUIT", self.__master.quit)
+            ("AJOUTER", self.add_data),
+            ("MODIFIER", self.change_data_selected),
+            ("SUPPRIMER", self.delete_data_selected),
+            ("AFFICHER", self.show_data_selected),
+            ("QUITTER", self.__master.quit)
         ]
 
         for text, command in buttons_config:
@@ -69,7 +70,7 @@ class Menu(ttk.Frame):
 
             ChangeDataView(master=self.__master, board=self.board, data_id=int(self.board.board.selection()[0]), controller=self.__controller)
         except IndexError:
-            print("Please select an item in the table")
+            dialogs.Messagebox.show_info(message="Veuillez sélectionner un élément dans la liste",title="Attention",parent=self.__master)
 
     def delete_data_selected(self):
         """
@@ -79,14 +80,16 @@ class Menu(ttk.Frame):
             selected_item = self.board.board.selection()
             if not selected_item:
                 raise IndexError("No data selected")
-            # Add a dialog box to confirm deletion
-            selected_item = self.board.board.selection()
-            if selected_item:
-                if self.__controller.delete_data(data_id=int(selected_item[0])):
-                    print("The data has been successfully deleted")
-                    self.board.board.delete(selected_item)
+            # Ask for confirmation before deleting
+            confirm = dialogs.Messagebox.yesno(message="Êtes-vous sûr de supprimer les données ?",title="Confirmation",parent=self.__master,icon="warning")
+            if confirm == "Oui":
+                # Add a dialog box to confirm deletion
+                selected_item = self.board.board.selection()
+                if selected_item:
+                    if self.__controller.delete_data(data_id=int(selected_item[0])):
+                        self.board.board.delete(selected_item)
         except IndexError:
-            print("Please select an item in the table")
+            dialogs.Messagebox.show_info(message="Veuillez sélectionner un élément dans la liste",title="Attention",parent=self.__master)
 
     def show_data_selected(self):
         """
@@ -99,7 +102,7 @@ class Menu(ttk.Frame):
 
             ShowDataView(master=self.__master, board=self.board, controller=self.__controller)
         except IndexError:
-            print("Please select an item in the table")
+            dialogs.Messagebox.show_info(message="Veuillez sélectionner un élément dans la liste",title="Attention",parent=self.__master)
 
     @property
     def controller(self):

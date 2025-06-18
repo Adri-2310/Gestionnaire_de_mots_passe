@@ -4,6 +4,7 @@ __version__ = "1.0"
 """
 from views.topLevelValidateAndCancelForUseDB import TopLevelValidateAndCancelForUseDB
 from models.data import Data
+import ttkbootstrap.dialogs as dialogs
 
 class ChangeDataView(TopLevelValidateAndCancelForUseDB):
     def __init__(self, master,data_id,board,controller)->None:
@@ -19,7 +20,7 @@ class ChangeDataView(TopLevelValidateAndCancelForUseDB):
 
     def change_data(self):
         if self.__controller.modif_data(data_id=self.__data_id,new_data=Data(name=self.var_name.get(),username=self.var_username.get(),password=self.var_password.get(),source=self.var_source.get())):
-            print("la données a bien été modifié")
+            dialogs.Messagebox.ok(message="Les informations ont bien été modifiées !",title="Information",parent=self)
             self.board.refresh_data_board_from_db()
             self.destroy()
         else:
