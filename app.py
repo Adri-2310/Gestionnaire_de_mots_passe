@@ -12,40 +12,6 @@ from views.mainView import MainWindow
 
 db_name = "db_gestionnaire_password.db"
 
-def create_db()->None:
-    """
-    Creates a database table named 'data' if it does not already exist.
-
-    This function executes an SQL query to create a table named 'data' in an SQLite
-    database. The table includes the following columns:
-
-    - id: An integer that serves as the primary key and auto-increments.
-    - name: A non-nullable text field for storing names.
-    - username: A non-nullable text field for storing usernames.
-    - password: A non-nullable text field for storing passwords.
-    - source: A text field for storing the source information.
-
-    If the table already exists, the operation is skipped. In the case of an error
-    during database connection or query execution, an appropriate exception is
-    raised.
-
-    :raises sqlite3.Error: If an error occurs during the creation of the database or
-        during query execution.
-    :return: None
-    """
-    # SQL query to create the 'data' table
-    sql = '''CREATE TABLE IF NOT EXISTS data (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        name TEXT NOT NULL,
-        username TEXT NOT NULL,
-        password TEXT NOT NULL,
-        source TEXT)'''
-    try:
-        with sqlite3.connect(db_name) as db:
-            db.execute(sql)
-    except sqlite3.Error as e:
-        raise sqlite3.Error(f"An error occurred while creating the database: {e}")
-
 def main()->None:
     """
     Main entry point of the application.
@@ -68,8 +34,6 @@ def main()->None:
     :returns: None
     """
     try:
-        if not os.path.exists(db_name):
-            create_db()
         data_base = Datas(db_name)
         MainWindow("Easy Password", data_base)
     except FileNotFoundError as e:
