@@ -4,7 +4,6 @@ Version: 1.0
 """
 
 # Import necessary modules
-import sqlite3
 import sys
 from models.data import Datas
 from views.mainView import MainWindow
@@ -40,9 +39,6 @@ def main()->None:
         raise
     except ValueError as e:
         print(f"An error occurred while initializing data: {e}", file=sys.stderr)
-        raise
-    except sqlite3.Error as e:
-        print(f"An error occurred while accessing the database: {e}", file=sys.stderr)
         raise
 
 # Main entry point of the script
