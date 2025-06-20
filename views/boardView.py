@@ -2,39 +2,44 @@
 Author: Adrien Mertens
 Version: 1.0
 """
+import sys
 import ttkbootstrap as ttk
 import ttkbootstrap.constants as ttkc
+import ttkbootstrap.dialogs as dialogs
 
 class BoardView(ttk.Frame):
     """
-    Represents a graphical table view for displaying data in a tree structure using a ttk.Treeview widget.
+    Represents a custom-styled Treeview contained within a Frame, designed for
+    displaying tabular data with aesthetic and functional features, such as
+    color tagging for rows, mapped interactions for states, and an integrated
+    vertical scrollbar for navigation.
 
-    This class provides a user interface component for displaying data in rows and columns with styled headers,
-    custom row styling for even and odd rows, and a vertical scrollbar for navigation. It also includes
-    functionality to refresh the displayed data from a database.
+    The class utilizes a controller to manage retrieving and updating data,
+    allowing dynamic interaction with backend sources like a database.
 
-    :ivar tree_frame: A frame that contains the Treeview widget and its scrollbar.
+    :ivar tree_frame: The Frame containing the Treeview widget and its scrollbar.
     :type tree_frame: ttk.Frame
-    :ivar board: The main Treeview widget used to display data.
+    :ivar board: The Treeview widget styled and configured for data display.
     :type board: ttk.Treeview
-    :ivar controller: A property representing the controller responsible for managing data
-                     and interactions for the displayed board.
-    :type controller: object
+    :ivar __parent: The parent widget that contains this Frame.
+    :type __parent: tkinter.Widget
+    :ivar __controller: A controller object responsible for managing data
+        operations, such as retrieving and updating the displayed data.
+    :type __controller: object
     """
     def __init__(self, parent)->None:
         """
-        Initializes the class instance by creating a custom-styled Treeview widget
-        with a specific color configuration, headers, columns, and a scrollbar.
+        Initializes the Treeview and associated Frame, styling, headers, and rows with
+        customized appearance and scroll behavior.
 
-        The implementation includes styling for different elements such as data rows,
-        headers, and selection states, ensuring a visually distinct and well-organized
-        table. A Frame is created to contain the Treeview, which does not resize based
-        on its content individually. Columns, header configurations, color tagging for
-        rows, and event-based color mapping are applied to enhance the Treeview's
-        appearance and usability.
+        This constructor sets up the interface for a Treeview table widget within a
+        parent container, applying styles for headers, rows, and states. It also includes
+        a scrollbar for managing limited visible rows and adds configuration for the columns
+        and headers.
 
-        :param parent: The parent widget where this Treeview widget will be placed.
-        :type parent: tkinter.Widget
+        :param parent: The parent container in which the Treeview and its associated
+                       components will be placed.
+        :type parent: Any
         """
         super().__init__(parent)
         self.__controller = None
@@ -86,14 +91,15 @@ class BoardView(ttk.Frame):
     @property
     def controller(self)->object:
         """
-        Provides access to the `controller` attribute which is a private member variable
-        of the class. This property is used to retrieve the value of the `__controller`.
-        If the attribute `__controller` is not set, it triggers the `quit` method of
-        `__parent`.
+        Gets the controller object.
 
-        :return: The value of the `__controller` attribute if it exists, otherwise
-                 initiates the `quit` method of the parent context.
-        :rtype: Any
+        This property retrieves the private `__controller` attribute. If the
+        attribute does not exist (raised as AttributeError), it ensures proper
+        application shutdown by calling the `quit` method on its parent.
+
+        :raises AttributeError: If `__controller` attribute is not set.
+        :return: The controller object.
+        :rtype: object
         """
         try:
             return self.__controller
@@ -103,34 +109,49 @@ class BoardView(ttk.Frame):
     @controller.setter
     def controller(self, controller)->None:
         """
-        Sets the controller property.
+        Sets the controller attribute to the provided value. This ensures the controller
+        is properly assigned for further usage.
 
-        This setter method modifies the private instance variable
-        `__controller` with the given controller value.
-
-        :param controller: The new controller to set.
-        :type controller: Any
+        :param controller: The new value to set for the controller attribute. Expected
+            to be a valid controller instance or value.
+        :return: None
         """
         self.__controller = controller
 
     def refresh_data_board_from_db(self)->None:
         """
-        Refreshes the data displayed on the TreeView by fetching updated data
-        from the database. Existing data on the board will be cleared and
-        repopulated based on new records retrieved.
+        Refreshes and updates the contents of the data board by synchronizing it with the
+        most recent data retrieved from the database. This method ensures that the board
+        displays up-to-date information by clearing old data, applying styling to rows based
+        on their index (even or odd), and handling any exceptions that occur during this process.
 
-        :raises DatabaseError: If there are issues interacting with the database.
-        :param self: The instance of the class that holds the controller and
-            TreeView (board).
-        :rtype: None
+        :raises AttributeError: If there is an issue accessing attributes of the controller.
+        :raises Exception: If an unexpected error occurs during the data refresh process.
+        :return: None
         """
-        # Retrieve all data from the database
-        data_list = self.__controller.get_all_datas()
-        # Clear all existing data in the Treeview
-        for item in self.board.get_children():
-            self.board.delete(item)
+        try:
+            # Retrieve all data from the database
+            data_list = self.controller.get_all_datas()
 
-        # Insert new data
-        for index, data in enumerate(data_list):
-            tag = 'evenrow' if index % 2 == 0 else 'oddrow'
-            self.board.insert('', ttkc.END, iid=data.id, values=data.name, tags=(tag,))
+            # Clear all existing data in the Treeview
+            for item in self.board.get_children():
+                self.board.delete(item)
+
+            # Insert new data
+            for index, data in enumerate(data_list):
+                tag = 'evenrow' if index % 2 == 0 else 'oddrow'
+                self.board.insert('', ttkc.END, iid=data.id, values=data.name, tags=(tag,))
+
+        except AttributeError as ae:
+            dialogs.Messagebox.show_error(
+                message=f"Une erreur est survenue lors de l'accès aux attributs du contrôleur : {ae}",
+                title="Erreur d'attribut",
+                parent=self
+            )
+        except Exception as e:
+            dialogs.Messagebox.show_error(
+                message=f"Une erreur inattendue est survenue : {e}",
+                title="Erreur",
+                parent=self
+            )
+            print(f"Une erreur inattendue est survenue : {e}", file=sys.stderr)
