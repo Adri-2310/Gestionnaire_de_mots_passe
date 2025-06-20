@@ -4,7 +4,6 @@ Version: 1.0
 """
 
 # Import necessary modules
-import os
 import sqlite3
 import sys
 from models.data import Datas

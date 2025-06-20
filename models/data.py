@@ -1,4 +1,7 @@
-import os
+"""
+__author__ = "<Adrien Mertens>"
+__version__ = "1.0
+"""
 import sys
 from dataclasses import dataclass, field
 import sqlite3

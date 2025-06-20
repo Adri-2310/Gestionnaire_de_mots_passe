@@ -74,9 +74,10 @@ class ShowDataView(ttk.Toplevel):
             style = ttk.Style()
             style.configure("AllFrame.TFrame", borderwidth=1, relief="solid", bordercolor="#4e5d6c",
                             background="#4e5d6c")
-            style.configure("TLabel", foreground="white", background="#4e5d6c", font=('Helvetica', 10, 'bold'))
-            style.configure("TEntry", foreground="white", background="#4e5d6c", font=('Helvetica', 10))
-            # Configurer les styles pour les boutons QUITTER
+            style.configure("TLabel", foreground="#17191b", background="#4e5d6c", font=('Helvetica', 10, 'bold'))
+
+
+            # Configurer les styles pour les boutons ANNULER
             style.configure("CancelButton.TButton", borderwidth=1, relief="solid", bordercolor="#FF5722")
             style.map("CancelButton.TButton",
                       background=[('active', '#c8441a'), ('!active', '#fd531e')],
@@ -88,25 +89,24 @@ class ShowDataView(ttk.Toplevel):
             name_frame = ttk.Frame(top_frame, style="AllFrame.TFrame")
             name_frame.pack(side="top", expand=True, fill="x")
             ttk.Label(name_frame, text="Nom :").pack(side="left", padx=10, pady=10)
-            ttk.Entry(name_frame, width=20, textvariable=self.var_name, state='readonly').pack(side="right", padx=10,
-                                                                                               pady=10)
+            ttk.Label(name_frame, width=20, textvariable=self.var_name,anchor="center").pack(side="right", padx=10,pady=10)
 
             username_frame = ttk.Frame(top_frame, style="AllFrame.TFrame")
             username_frame.pack(side="top", expand=True, fill="x")
             ttk.Label(username_frame, text="Nom d'utilisateur :").pack(side="left", padx=10, pady=10)
-            ttk.Entry(username_frame, width=20, textvariable=self.var_username, state='readonly').pack(side="right",
+            ttk.Label(username_frame, width=20, textvariable=self.var_username,anchor="center").pack(side="right",
                                                                                                        padx=10, pady=10)
 
             password_frame = ttk.Frame(top_frame, style="AllFrame.TFrame")
             password_frame.pack(side="top", expand=True, fill="x")
             ttk.Label(password_frame, text="Mot de passe :").pack(side="left", padx=10, pady=10)
-            ttk.Entry(password_frame, width=20, textvariable=self.var_password, state='readonly').pack(side="right",
+            ttk.Label(password_frame, width=20, textvariable=self.var_password,anchor="center").pack(side="right",
                                                                                                        padx=10, pady=10)
 
             source_frame = ttk.Frame(top_frame, style="AllFrame.TFrame")
             source_frame.pack(side="top", expand=True, fill="x")
             ttk.Label(source_frame, text="Source :").pack(side="left", padx=10, pady=10)
-            ttk.Entry(source_frame, width=20, textvariable=self.var_source, state='readonly').pack(side="right",
+            ttk.Label(source_frame, width=20, textvariable=self.var_source,anchor="center").pack(side="right",
                                                                                                    padx=10, pady=10)
 
             bottom_frame = ttk.Frame(self, style="AllFrame.TFrame")
