@@ -197,6 +197,7 @@ class Menu(ttk.Frame):
             if not selected_item:
                 raise IndexError("Aucune donnée sélectionnée")
             ShowDataView(master=self.__master, board=self.board, controller=self.__controller)
+            self.board.board.selection_remove(selected_item)
         except IndexError:
             dialogs.Messagebox.show_info(
                 message="Veuillez sélectionner un élément dans la liste",
