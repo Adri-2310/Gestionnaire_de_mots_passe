@@ -29,7 +29,7 @@ class TopLevelValidateAndCancelForUseDB(ttk.Toplevel):
             self.resizable(False, False)
             self.__command_for_validateButton = command_for_validateButton
             self.place_window_center()
-
+            self.iconbitmap("ico/logo.ico")
             # Variable ttk pour les entrys
             self.var_id = ttk.IntVar()
             self.var_name = ttk.StringVar()
