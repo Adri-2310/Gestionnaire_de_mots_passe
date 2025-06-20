@@ -50,7 +50,6 @@ class MainWindow(ttk.Window):
             self.title(title)
             self.resizable(False, False)
             self.place_window_center()
-            self.iconbitmap("ico/logo.ico")
             # Initialize the treeview and its controller
             self.treeview = BoardView(self)
             self.treeview.controller = ControllersDatas(datas=datas)
